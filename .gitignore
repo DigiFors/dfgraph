@@ -11,6 +11,10 @@ __pychache__/
 # System
 .DS_Store
 
+#build
+build/
+dist
+
 # Pip
 *.egg-info
 
