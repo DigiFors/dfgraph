@@ -1,26 +1,23 @@
-# IDE
-.idea/
-
-# Python
-*.py[cod]
-__pychache__/
-
-# Venv
-.venv/
-
-# System
 .DS_Store
-
-#build
+.env
+*.pyc
+*.pyo
+env/
+env*
+dist/
 build/
-dist
+*.egg
+*.egg-info/
+_mailinglist
+.tox/
+.cache/
+.pytest_cache/
+.idea/
+docs/_build/
+.vscode
 
-# Pip
-*.egg-info
-
-# Testing
-.pytest_chache/
-.converage
-
-# DB
-.db
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+*,cover
