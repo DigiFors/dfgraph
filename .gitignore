@@ -1,0 +1,22 @@
+# IDE
+.idea/
+
+# Python
+*.py[cod]
+__pychache__/
+
+# Venv
+.venv/
+
+# System
+.DS_Store
+
+# Pip
+*.egg-info
+
+# Testing
+.pytest_chache/
+.converage
+
+# DB
+.db
