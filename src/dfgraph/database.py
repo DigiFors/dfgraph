@@ -1,27 +1,60 @@
 from sqlalchemy import create_engine, Table, Column, Integer, String, Text, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import scoped_session, sessionmaker, backref, relationship, object_session
+from sqlalchemy.orm import scoped_session, sessionmaker, backref, relationship, object_session, Session
 from sqlalchemy.ext.hybrid import hybrid_property, hybrid_method
+from multiprocessing import Lock
 
 import uuid
 import json
 
-db_file = 'apple.db'
+mutex = Lock()
+current_engines = {}
 
-engine = create_engine('sqlite:///'+db_file,
-                       convert_unicode=True)
-with engine.connect() as con:
-        con.execute("PRAGMA foreign_keys = TRUE;")
-db_session = scoped_session(sessionmaker(autocommit=False,
+
+class Graph:
+    def __init__(self, db_name:str, root = None):
+        self.name = db_name
+        
+        global current_engines, mutex
+        engine = None
+        with mutex:
+            if self.name in current_engines.keys():
+                engine = current_engines[self.name]['engine']
+                current_engines[self.name]['sessions'] += 1
+            else:
+                
+                engine = create_engine('sqlite:///'+self.name,
+                           convert_unicode=True)
+                Model.metadata.create_all(bind=engine)
+                
+
+                with engine.connect() as con:
+                    con.execute("PRAGMA foreign_keys = TRUE;")
+                current_engines.update({self.name: {"engine":engine, "sessions": 1}})
+
+        self.session = scoped_session(sessionmaker(autocommit=False,
                                          autoflush=False,
                                          bind=engine))
+        Model.query = self.session.query_property()
 
-def init_db():
-    Model.metadata.create_all(bind=engine)
+
+    def __del__(self):
+        # self.close()
+        global current_engines, mutex
+        with mutex:
+            if self.name in current_engines.keys():
+                current_engines[self.name]['sessions'] -= 1
+                if current_engines[self.name]['sessions'] == 0:
+                    engine = current_engines[self.name]['engine']
+                    # if engine:
+                    #     engine.close()
+                del current_engines[self.name] 
+
+# def init_db():
+#     Model.metadata.create_all(bind=engine)
 
 # https://docs.sqlalchemy.org/en/14/orm/join_conditions.html
 Model = declarative_base(name='Model')
-Model.query = db_session.query_property()
 
 class Relationship(Model):
     __tablename__ = 'relationship'

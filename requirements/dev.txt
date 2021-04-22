@@ -24,6 +24,8 @@ filelock==3.0.12
     # via
     #   tox
     #   virtualenv
+greenlet==1.0.0
+    # via sqlalchemy
 identify==2.2.4
     # via pre-commit
 iniconfig==1.1.1
@@ -58,6 +60,10 @@ six==1.15.0
     # via
     #   tox
     #   virtualenv
+sqlalchemy==1.4.11
+    # via
+    #   -r requirements/dev.in
+    #   -r requirements\tests.in
 toml==0.10.2
     # via
     #   pep517
