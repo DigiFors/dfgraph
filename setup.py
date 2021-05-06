@@ -7,7 +7,5 @@ setup(
         "sqlalchemy>=1.4.10",
     ],
     extras_require={
-        #"async": ["asgiref>=3.2"],
-        #"dotenv": ["python-dotenv"],
     },
 )

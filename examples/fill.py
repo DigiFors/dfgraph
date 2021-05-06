@@ -1,4 +1,4 @@
-from dfgraph import Node, Relationship, Graph
+from dfgraph import Node, Relation, Graph
 
 graph = Graph('apple.db')
 session = graph.session
@@ -16,13 +16,13 @@ session.add(n5)
 
 session.commit()
 
-rel1 = Relationship(n2, 'founded', n1)
-rel2 = Relationship(n3, 'founded', n1)
-rel3 = Relationship(n4, 'founded', n1)
-rel4 = Relationship(n5, 'invested', n1, {'equity': 80000, 'debt': 170000})
-rel5 = Relationship(n1, 'divested', n4, {'amount': 800, 'date': 'April 12, 1976'})
-rel6 = Relationship(n2, '', n3)
-rel6 = Relationship(n1, '', n3)
+rel1 = Relation(n2, 'founded', n1)
+rel2 = Relation(n3, 'founded', n1)
+rel3 = Relation(n4, 'founded', n1)
+rel4 = Relation(n5, 'invested', n1, {'equity': 80000, 'debt': 170000})
+rel5 = Relation(n1, 'divested', n4, {'amount': 800, 'date': 'April 12, 1976'})
+rel6 = Relation(n2, '', n3)
+rel6 = Relation(n1, '', n3)
 
 session.add(rel1)
 session.add(rel2)
