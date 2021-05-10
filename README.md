@@ -10,7 +10,7 @@ Is a simple graph based database library based on the `sqlalchemy` library.
 ## Testing
 till `pip 21.3`:
 ```
-pip install --use-feature=in-tree-build .
+pip install --use-feature=in-tree-build -e .
 pytest
 ```
 `pip 21.3+`:

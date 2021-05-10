@@ -24,7 +24,6 @@ def connect(request):
     #     Path(request.param).unlink()
 
 
-
 @pytest.fixture
 def fill(connect):
     graph = connect
@@ -38,9 +37,51 @@ def fill(connect):
     graph.add(jobs)
     graph.add(wayne)
     graph.add(arkkula)
+    Relation(wozniak, 'founded', apple)
+    Relation(jobs, 'founded', apple)
+    Relation(wayne, 'founded', apple)
+    Relation(arkkula, 'invested', apple, {'equity': 80000, 'debt': 170000})
+    Relation(apple, 'divested', wayne, {'amount': 800, 'date': 'April 12, 1976'})
+    Relation(wozniak, '', jobs)
+    Relation(apple, '', jobs)
     yield graph
 
 
+@pytest.fixture
+def delete_wozniak(fill):
+    graph = fill
+    wozniak = None
+    apple = None
+    jobs = None
+    for node in graph.nodes:
+        if node.name == "Steve Wozniak":
+            wozniak = node
+        if node.name == "Apple Computer Company":
+            apple = node
+        if node.name == "Steve Jobs":
+            jobs = node
+    wozniak.delete()
+    yield graph
+    wozniak = Node('Steve Wozniak', ['person', 'engineer', 'founder'])
+    graph.add(wozniak)
+    Relation(wozniak, 'founded', apple)
+    Relation(wozniak, '', jobs)
+
+@pytest.fixture
+def add_wozniak(delete_wozniak):
+    graph = delete_wozniak
+    apple = None
+    jobs = None
+    for node in graph.nodes:
+        if node.name == "Apple Computer Company":
+            apple = node
+        if node.name == "Steve Jobs":
+            jobs = node
+    wozniak = Node('Steve Wozniak', ['person', 'engineer', 'founder'])
+    graph.add(wozniak)
+    Relation(wozniak, 'founded', apple)
+    Relation(wozniak, '', jobs)
+    yield graph
 
 # @pytest.fixture
 # def delete_nodes(add_nodes, apple, steve_wozniak, steve_jobs, ronald_wayne, mike_arkkula):

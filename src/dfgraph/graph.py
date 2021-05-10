@@ -1,11 +1,14 @@
 from .database import DBNode, DBGraph, DBRelation
 from .seralizer import *
 import uuid
+import weakref
 
 
 class Node(SerializerInterface):
-    def __init__(self, name: str, types=[], body={}, id=str(uuid.uuid4()), parent=None):
+    def __init__(self, name: str, types=[], body={}, id=None, parent=None):
         self.id = id
+        if self.id is None:
+            self.id = str(uuid.uuid4())
         self.name = name
         self.types = types
         self.body = body
@@ -15,7 +18,7 @@ class Node(SerializerInterface):
     def set_parent(self, parent):
         self.parent = parent
         if self.parent:
-            self.parent.relations += [self.relations]
+            self.parent.relations += self.relations
 
     def add_relation(self, relation):
         self.relations.append(relation)
@@ -25,6 +28,21 @@ class Node(SerializerInterface):
     def to_dict(self) -> dict:
         return dict(id=self.id, name=self.name, types=self.types, body=self.body)
 
+    def delete(self):
+        if self.parent:
+            print("found", len(self.relations))
+            self.parent.nodes.remove(self)
+            for r in self.relations:
+                print("found", r.to_dict())
+                self.parent.relations.remove(r)
+        self.relations.clear()
+
+    def __del__(self):
+        self.relations.clear()
+
+    def __eq__(self, other):
+        return self.id == other.id
+
 
 class Relation(SerializerInterface):
     def __init__(self, source: Node, relation: str, target: Node, properties={}):
@@ -33,13 +51,17 @@ class Relation(SerializerInterface):
         self.relation = relation
         self.properties = properties
         if source:
-            self.source.add_realtion(self)
+            self.source.add_relation(self)
 
     def to_dict(self) -> dict:
         return dict(source_id=self.source.id,
                     relation=self.relation,
                     target_id=self.target.id,
                     properties=self.properties)
+
+    def __eq__(self, other):
+        print("relation")
+        return self.source.id == other.source.id and self.target.id == other.target.id
 
 
 class Graph(SerializerInterface):
@@ -81,12 +103,16 @@ class Graph(SerializerInterface):
             session.add(DBRelation(source, relation.relation, target, node.id))
         session.commit()
 
-    def add(self, node) -> bool:
-        if isinstance(node, Node):
-            self.nodes.append(node)
-            node.set_parent(self)
+    def add(self, elem) -> bool:
+        if isinstance(elem, Node):
+            self.nodes.append(elem)
+            elem.set_parent(self)
+            return True
+        elif isinstance(elem, Relation):
+            self.relations.append(elem)
             return True
         return False
+
 
     def to_dict(self) -> dict:
         res = dict()
