@@ -1,4 +1,5 @@
 # DFGraph
+[![pip](https://img.shields.io/pypi/v/dfgraph.svg?maxAge=3600)](https://pypi.org/project/dfgraph/)
 ![workflow](https://github.com/willi-z/dfgraph/actions/workflows/ci.yml/badge.svg?branch=master)
 [![codecov](https://codecov.io/gh/willi-z/dfgraph/branch/master/graph/badge.svg?token=JVKPGLBT3J)](https://codecov.io/gh/willi-z/dfgraph)
 
