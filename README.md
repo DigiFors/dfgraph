@@ -66,7 +66,7 @@ For example, the BibTex citation is:
 ```
 @software{willi_zschiebsch_2021_4748703,
   author       = {Willi Zschiebsch},
-  title        = {willi-z/dfgraph: 0.1.3},
+  title        = {DFGraph: A directed and flexible graph library},
   month        = may,
   year         = 2021,
   publisher    = {Zenodo},
