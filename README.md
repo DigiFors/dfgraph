@@ -1,6 +1,6 @@
 # DFGraph
-![workflow](https://github.com/willi-z/dfgraph/actions/workflows/ci.yml/badge.svg?branch=main)
-[![codecov](https://codecov.io/gh/willi-z/dfgraph/branch/main/graph/badge.svg?token=CG4DIOZZ6C)](https://codecov.io/gh/willi-z/dfgraph)
+![workflow](https://github.com/willi-z/dfgraph/actions/workflows/ci.yml/badge.svg?branch=master)
+[![codecov](https://codecov.io/gh/willi-z/dfgraph/branch/master/graph/badge.svg?token=JVKPGLBT3J)](https://codecov.io/gh/willi-z/dfgraph)
 
 The `directed and flexible graph` is part of [DigiFors](https://digifors.de/) effort
 to contribute to the analysing and detection of content and context dependent information.
