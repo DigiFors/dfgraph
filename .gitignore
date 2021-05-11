@@ -2,6 +2,7 @@
 .env
 *.pyc
 *.pyo
+*.db
 env/
 env*
 dist/
