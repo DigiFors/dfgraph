@@ -3,7 +3,7 @@ from tests.conftest import *
 
 
 @pytest.mark.filterwarnings('ignore::sqlalchemy.exc.SADeprecationWarning')
-def test_create(connect):
+def test_create(connect_db):
     assert Path('test.db').is_file()
 #
 #

@@ -17,11 +17,16 @@ def delete_node(g: Graph, n: Node):
     session.commit()
 
 
-@pytest.fixture(params=["", "test.db"])
-def connect(request):
-    yield Graph(request.param)
+@pytest.fixture
+def connect():
+    yield Graph("")
     # if request.param:
     #     Path(request.param).unlink()
+
+
+@pytest.fixture
+def connect_db():
+    yield Graph("test.db")
 
 
 @pytest.fixture
@@ -66,6 +71,7 @@ def delete_wozniak(fill):
     graph.add(wozniak)
     Relation(wozniak, 'founded', apple)
     Relation(wozniak, '', jobs)
+
 
 @pytest.fixture
 def add_wozniak(delete_wozniak):
